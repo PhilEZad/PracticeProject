@@ -16,7 +16,28 @@ public class MovieDAO implements IMovieDataAccess {
 
     @Override
     public Movie createMovie(String title, int year) throws Exception {
-        return null;
+        List<Movie> allMoviesList = new ArrayList<>();
+
+        File moviesFile = new File(MOVIES_FILE);
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(moviesFile)))
+        {
+            boolean hasLine = true;
+            String line = bufferedReader.readLine();
+            hasLine = (line != null);
+            if (hasLine && !line.isBlank())
+            {
+
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
