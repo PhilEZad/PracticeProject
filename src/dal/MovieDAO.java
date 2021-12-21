@@ -11,11 +11,6 @@ public class MovieDAO implements IMovieDataAccess {
     private static final String MOVIES_FILE = "data/movie_titles.txt";
 
     public List<Movie> getAllMovies() throws IOException {
-        return null;
-    }
-
-    @Override
-    public Movie createMovie(String title, int year) throws Exception {
         List<Movie> allMoviesList = new ArrayList<>();
 
         File moviesFile = new File(MOVIES_FILE);
@@ -23,12 +18,30 @@ public class MovieDAO implements IMovieDataAccess {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(moviesFile)))
         {
             boolean hasLine = true;
-            String line = bufferedReader.readLine();
-            hasLine = (line != null);
-            if (hasLine && !line.isBlank())
-            {
+            while (hasLine = true) {
 
+                String line = bufferedReader.readLine();
+                hasLine = (line != null);
+
+                if (hasLine && !line.isBlank()) {
+                    String[] separatedLine = line.split(",");
+
+                    int id = Integer.parseInt(0);
+                    int year = Integer.parseInt(1);
+                    String title = separatedLine[2];
+                    if (separatedLine.length > 3)
+                    {
+                        for(int i = 3; i < separatedLine.length; i++)
+                        {
+                            title += "," + separatedLine[i];
+                        }
+                    }
+                    Movie movie = new Movie(id, title, year);
+
+                    allMoviesList.add(movie);
+                }
             }
+
         }
         catch (FileNotFoundException e)
         {
@@ -38,6 +51,13 @@ public class MovieDAO implements IMovieDataAccess {
         {
             e.printStackTrace();
         }
+
+        return allMoviesList;
+    }
+
+    @Override
+    public Movie createMovie(String title, int year) throws Exception {
+        return null;
     }
 
     @Override
